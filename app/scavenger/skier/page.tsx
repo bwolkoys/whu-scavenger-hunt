@@ -1,205 +1,264 @@
 "use client";
 
-import Image from "next/image";
-import { useMemo, useState } from "react";
+import Link from "next/link";
+import { useEffect, useMemo, useState } from "react";
 
-type Question = {
-  id: string;
-  prompt: string;
-};
+type Item = { id: string; text: string };
 
-type Answer = {
-  questionId: string;
-  photo: File;
-  previewUrl: string;
-};
-
-const QUESTIONS: Question[] = [
-  { id: "q1", prompt: "Take a photo of the event entrance sign." },
-  { id: "q2", prompt: "Take a photo with your group in front of the fire pit." },
-  { id: "q3", prompt: "Take a photo of your favorite moment tonight." },
+const ITEMS: Item[] = [
+  { id: "q1", text: "Group photo spelling WHU" },
+  { id: "q2", text: "Ski patrol shack or sign" },
+  { id: "q3", text: "Fake action shot (jump pose without jumping)" },
+  { id: "q4", text: "Snow angel in ski boots" },
+  { id: "q5", text: "Best ski goggle reflection shot" },
+  { id: "q6", text: "A dramatic “end of run” victory pose" },
+  { id: "q7", text: "A wipeout aftermath (bonus if laughing)" },
+  { id: "q8", text: "Photo from behind showing everyone skiing away" },
+  { id: "q9", text: "Après-ski drink cheers (bonus 🍻)" },
 ];
 
-export default function SkierPage() {
-  const [step, setStep] = useState(0);
-  const [answers, setAnswers] = useState<Answer[]>([]);
-  const [selectedFile, setSelectedFile] = useState<File | null>(null);
-  const [previewUrl, setPreviewUrl] = useState<string | null>(null);
+const CHECKED_KEY = "skier_scavenger_checked_v1";
+const TEAM_KEY = "skier_scavenger_team_v1";
+const MIN_TO_SUBMIT = 2;
+
+export default function SkierChecklistPage() {
+  const [teamName, setTeamName] = useState("");
+  const [teamInput, setTeamInput] = useState("");
+
+  const [checked, setChecked] = useState<Record<string, boolean>>({});
   const [error, setError] = useState<string | null>(null);
 
-  const current = QUESTIONS[step];
-  const isDone = step >= QUESTIONS.length;
+  // Load persisted state
+  useEffect(() => {
+    const savedTeam = localStorage.getItem(TEAM_KEY) || "";
+    setTeamName(savedTeam);
+    setTeamInput(savedTeam);
 
-  const progressText = useMemo(() => {
-    if (isDone) return `Completed ${QUESTIONS.length}/${QUESTIONS.length}`;
-    return `Question ${step + 1} of ${QUESTIONS.length}`;
-  }, [step, isDone]);
+    try {
+      const raw = localStorage.getItem(CHECKED_KEY);
+      if (raw) setChecked(JSON.parse(raw));
+      else setChecked(Object.fromEntries(ITEMS.map((i) => [i.id, false])));
+    } catch {
+      setChecked(Object.fromEntries(ITEMS.map((i) => [i.id, false])));
+    }
+  }, []);
 
-  function onPickFile(file: File | null) {
+  // Persist checklist
+  useEffect(() => {
+    if (!Object.keys(checked).length) return;
+    localStorage.setItem(CHECKED_KEY, JSON.stringify(checked));
+  }, [checked]);
+
+  const checkedCount = useMemo(
+    () => ITEMS.filter((i) => checked[i.id]).length,
+    [checked]
+  );
+
+  const canSubmit = checkedCount >= MIN_TO_SUBMIT;
+
+  function toggle(id: string) {
+    setChecked((prev) => ({ ...prev, [id]: !prev[id] }));
+  }
+
+  function saveTeam() {
+    setError(null);
+    const trimmed = teamInput.trim();
+    setTeamName(trimmed);
+    localStorage.setItem(TEAM_KEY, trimmed);
+  }
+
+  function resetTeam() {
+    setError(null);
+    setTeamName("");
+    setTeamInput("");
+    localStorage.removeItem(TEAM_KEY);
+  }
+
+  function handleSubmitClick(e: React.MouseEvent) {
     setError(null);
 
-    // Clean up old preview URL
-    if (previewUrl) URL.revokeObjectURL(previewUrl);
-
-    setSelectedFile(file);
-    if (!file) {
-      setPreviewUrl(null);
+    if (!teamName) {
+      e.preventDefault();
+      setError("Please enter your team name before submitting.");
       return;
     }
 
-    const url = URL.createObjectURL(file);
-    setPreviewUrl(url);
-  }
-
-  async function handleSubmit() {
-    setError(null);
-
-    if (!current) return;
-    if (!selectedFile || !previewUrl) {
-      setError("Please upload a photo to continue.");
+    if (!canSubmit) {
+      e.preventDefault();
+      setError(`Check off at least ${MIN_TO_SUBMIT} photos to submit.`);
       return;
     }
 
-    // Save locally (front-end). If you want server upload, see note below.
-    setAnswers((prev) => [
-      ...prev,
-      { questionId: current.id, photo: selectedFile, previewUrl },
-    ]);
-
-    // Reset picker for next question
-    setSelectedFile(null);
-    setPreviewUrl(null);
-
-    setStep((s) => s + 1);
-  }
-
-  function handleRestart() {
-    // Cleanup all created object URLs
-    answers.forEach((a) => URL.revokeObjectURL(a.previewUrl));
-    if (previewUrl) URL.revokeObjectURL(previewUrl);
-
-    setStep(0);
-    setAnswers([]);
-    setSelectedFile(null);
-    setPreviewUrl(null);
-    setError(null);
+    // ✅ allowed — will navigate to Airtable embed page
   }
 
   return (
-    <div className="min-h-screen bg-white">
+    <div className="min-h-screen bg-[#1BB1E7]">
       <div className="mx-auto max-w-2xl px-4 py-10">
-        <div className="mb-6 flex items-center justify-between">
-          <h1 className="text-xl font-semibold">Photo Questions</h1>
-          <span className="text-sm text-gray-500">{progressText}</span>
-        </div>
+        {/* Header */}
+        <div className="mb-6">
+          <h1 className="text-2xl font-bold text-white">
+            Skiers Scavenger List
+          </h1>
+          <p className="mt-2 text-white/90">
+            Check items off as you complete them. Once you’re ready, submit your photos via the form. Winners will be decided tonight at the Burger Bash!
+          </p>
 
-        {/* Progress bar */}
-        <div className="mb-8 h-2 w-full rounded bg-gray-200">
-          <div
-            className="h-2 rounded bg-black transition-all"
-            style={{
-              width: `${Math.min((step / QUESTIONS.length) * 100, 100)}%`,
-            }}
-          />
-        </div>
-
-        {!isDone ? (
-          <div className="rounded-2xl border border-gray-200 p-6 shadow-sm">
-            <p className="mb-4 text-sm text-gray-500">{progressText}</p>
-
-            <h2 className="mb-6 text-lg font-medium">{current.prompt}</h2>
-
-            <div className="mb-4">
-              <label className="block text-sm font-medium mb-2">
-                Upload photo (required)
-              </label>
-
-              <input
-                type="file"
-                accept="image/*"
-                capture="environment"
-                onChange={(e) => onPickFile(e.target.files?.[0] ?? null)}
-                className="block w-full text-sm"
-              />
-
-              {previewUrl ? (
-                <div className="mt-4">
-                  <div className="relative h-64 w-full overflow-hidden rounded-xl bg-gray-100">
-                    <Image
-                      src={previewUrl}
-                      alt="Selected preview"
-                      fill
-                      className="object-contain"
-                      unoptimized
-                    />
-                  </div>
-
-                  <button
-                    type="button"
-                    onClick={() => onPickFile(null)}
-                    className="mt-3 text-sm text-gray-600 underline"
-                  >
-                    Remove photo
-                  </button>
-                </div>
-              ) : null}
-            </div>
-
-            {error ? (
-              <p className="mb-4 text-sm text-red-600">{error}</p>
-            ) : null}
-
-            <div className="mt-6 flex items-center justify-end gap-3">
-              <button
-                type="button"
-                onClick={handleSubmit}
-                className="rounded-xl bg-black px-4 py-2 text-sm font-medium text-white"
-              >
-                Submit & Next
-              </button>
-            </div>
-          </div>
-        ) : (
-          <div className="rounded-2xl border border-gray-200 p-6 shadow-sm">
-            <h2 className="mb-2 text-lg font-semibold">All done 🎉</h2>
-            <p className="mb-6 text-sm text-gray-600">
-              You submitted {answers.length} photo{answers.length === 1 ? "" : "s"}.
-            </p>
-
-            <div className="space-y-6">
-              {answers.map((a, idx) => {
-                const q = QUESTIONS.find((q) => q.id === a.questionId);
-                return (
-                  <div key={a.questionId} className="rounded-xl bg-gray-50 p-4">
-                    <p className="mb-3 text-sm font-medium">
-                      {idx + 1}. {q?.prompt ?? a.questionId}
-                    </p>
-                    <div className="relative h-52 w-full overflow-hidden rounded-lg bg-white">
-                      <Image
-                        src={a.previewUrl}
-                        alt={`Answer ${idx + 1}`}
-                        fill
-                        className="object-contain"
-                        unoptimized
-                      />
-                    </div>
-                  </div>
-                );
-              })}
-            </div>
-
-            <div className="mt-8 flex justify-end">
-              <button
-                type="button"
-                onClick={handleRestart}
-                className="rounded-xl border border-gray-300 px-4 py-2 text-sm font-medium"
-              >
-                Restart
-              </button>
-            </div>
-          </div>
-        )}
-      </div>
+          {/* Team name */}
+          <div className="mt-5 rounded-2xl bg-white/10 border border-white/25 p-4">
+  <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+    <div className="text-white">
+      <div className="text-sm font-semibold">Team Name</div>
+      {teamName ? (
+        <div className="text-lg font-bold">{teamName}</div>
+      ) : (
+        <div className="text-sm text-white/80"></div>
+      )}
     </div>
+
+    {/* Input + buttons */}
+    <div className="flex flex-row items-center gap-2">
+      <input
+        value={teamInput}
+        onChange={(e) => setTeamInput(e.target.value)}
+        placeholder="Enter team name"
+        className="w-full sm:w-64 rounded-xl px-3 py-2 text-sm text-black"
+      />
+      <button
+        type="button"
+        onClick={saveTeam}
+        className="rounded-xl bg-black px-4 py-2 text-sm font-semibold text-white whitespace-nowrap"
+      >
+        Save
+      </button>
+      <button
+        type="button"
+        onClick={resetTeam}
+        className="rounded-xl border border-white/40 px-4 py-2 text-sm font-semibold text-white whitespace-nowrap"
+      >
+        Reset
+      </button>
+    </div>
+  </div>
+</div>
+
+          <p className="mt-4 text-white font-semibold">
+            Progress: {checkedCount}/{ITEMS.length} (need {MIN_TO_SUBMIT}+ to
+            submit)
+          </p>
+        </div>
+
+        {/* Checklist */}
+        <ul className="space-y-3 rounded-2xl bg-white/10 border border-white/25 p-6">
+          {ITEMS.map((item) => (
+            <li key={item.id} className="flex items-start gap-3">
+              <input
+                type="checkbox"
+                checked={Boolean(checked[item.id])}
+                onChange={() => toggle(item.id)}
+                className="mt-1 h-5 w-5"
+              />
+              <span
+                className={`text-white ${
+                  checked[item.id] ? "line-through opacity-80" : ""
+                }`}
+              >
+                {item.text}
+              </span>
+            </li>
+          ))}
+        </ul>
+
+        {error ? <p className="mt-4 text-sm text-red-200">{error}</p> : null}
+
+        {/* Submit */}
+        <div className="mt-6 flex flex-wrap gap-3 justify-center">
+          <Link
+            href="/scavenger/submit"
+            onClick={handleSubmitClick}
+            className={`rounded-xl px-4 py-2 text-sm font-semibold text-white ${
+              canSubmit && teamName
+                ? "bg-black"
+                : "bg-black/40 cursor-not-allowed"
+            }`}
+          >
+            Submit Photos
+          </Link>
+        </div>
+
+            <div className="mx-auto max-w-2xl px-4 py-4 text-white">
+              {" "}
+              <div className="text-md font-bold uppercase tracking-wide mb-2">
+                {" "}
+                Bonus photo ideas:{" "}
+              </div>{" "}
+              <div className="text-sm leading-relaxed">
+                {" "}
+                <p>
+                  {" "}
+                  <span className="font-semibold">5 point photos:</span>{" "}
+                </p>{" "}
+                <ul className="space-y-3 text-sm text-white">
+                  {" "}
+                  <li className="flex items-start">
+                    {" "}
+                    <span className="text-white mr-2">•</span>{" "}
+                    <span>Fresh tracks in untouched snow</span>{" "}
+                  </li>{" "}
+                  <li className="flex items-start">
+                    {" "}
+                    <span className="text-white mr-2">•</span>{" "}
+                    <span>Snowmaking guns in action</span>{" "}
+                  </li>{" "}
+                  <li className="flex items-start">
+                    {" "}
+                    <span className="text-white mr-2">•</span>{" "}
+                    <span>Trees frosted with snow</span>{" "}
+                  </li>{" "}
+                  <li className="flex items-start pb-6">
+                    {" "}
+                    <span className="text-white mr-2">•</span>{" "}
+                    <span> Most trail signs in one shot.</span>{" "}
+                  </li>{" "}
+                </ul>{" "}
+                <p>
+                  {" "}
+                  <span className="font-semibold pt-6">
+                    {" "}
+                    Lodge shots (sign must be visible):{" "}
+                  </span>{" "}
+                </p>{" "}
+                <ul className="space-y-3 text-sm text-white">
+                  {" "}
+                  <li className="flex items-start">
+                    {" "}
+                    <span className="text-white mr-2">•</span>{" "}
+                    <span>Sun Lodge</span>{" "}
+                  </li>{" "}
+                  <li className="flex items-start">
+                    {" "}
+                    <span className="text-white mr-2">•</span>{" "}
+                    <span>Red Pine Lodge</span>{" "}
+                  </li>{" "}
+                  <li className="flex items-start">
+                    {" "}
+                    <span className="text-white mr-2">•</span>{" "}
+                    <span>Tomstone BBQ</span>{" "}
+                  </li>{" "}
+                  <li className="flex items-start">
+                    {" "}
+                    <span className="text-white mr-2">•</span>{" "}
+                    <span> Lookout Cabin</span>{" "}
+                  </li>{" "}
+                  <li className="flex items-start">
+                    {" "}
+                    <span className="text-white mr-2">•</span>{" "}
+                    <span> Cloud Dine</span>{" "}
+                  </li>{" "}
+                </ul>{" "}
+              </div>{" "}
+            </div>{" "}
+          </div>
+        </div>
   );
 }
