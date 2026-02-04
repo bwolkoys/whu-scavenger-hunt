@@ -92,7 +92,16 @@ export default function WalkerChecklistPage() {
 
   return (
     <div className="min-h-screen bg-[#1BB1E7]">
-      <div className="mx-auto max-w-2xl px-4 py-10">
+      <div className="p-4 flex flex-wrap justify-start">
+        <Link
+          href="/"
+          className="inline-flex items-center gap-2 rounded-xl bg-black/40 px-4 py-2 text-sm font-semibold text-white hover:bg-black/60 transition"
+        >
+          ← Back
+        </Link>
+      </div>
+
+      <div className="mx-auto max-w-2xl px-4">
         {/* Header */}
         <div className="mb-6">
           <h1 className="text-2xl font-bold text-white">
@@ -175,7 +184,7 @@ export default function WalkerChecklistPage() {
             onClick={handleSubmitClick}
             className={`rounded-xl px-4 py-2 text-sm font-semibold text-white ${
               canSubmit && teamName
-                ? "bg-black"
+                ? "bg-green-600"
                 : "bg-black/40 cursor-not-allowed"
             }`}
           >
@@ -186,39 +195,9 @@ export default function WalkerChecklistPage() {
           {/* <div className="text-md font-bold uppercase tracking-wide mb-2">
             Bonus photo ideas:{" "}
           </div> */}
-          <div className="text-sm leading-relaxed">
-
-            {/* <p>
-
-              <span className="font-semibold">5 point photos:</span>
-            </p> */}
-            {/* <ul className="space-y-3 text-sm text-white">
-
-              <li className="flex items-start">
-
-                <span className="text-white mr-2">•</span>
-                <span>Fresh tracks in untouched snow</span>
-              </li>
-              <li className="flex items-start">
-               
-                <span className="text-white mr-2">•</span>
-                <span>Snowmaking guns in action</span>
-              </li>
-              <li className="flex items-start">
-                
-                <span className="text-white mr-2">•</span>
-                <span>Trees frosted with snow</span>
-              </li>
-              <li className="flex items-start pb-6">
-               
-                <span className="text-white mr-2">•</span>
-                <span> Most trail signs in one shot.</span>
-              </li>
-            </ul> */}
-
-            <p>
+          <div className="text-sm rounded-xl border border-white/30 p-4 mb-6">
+            <p className="mb-3">
               <span className="font-semibold pt-6">
-
                 Lift shots (sign must be visible):
               </span>
             </p>

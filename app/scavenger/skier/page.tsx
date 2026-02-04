@@ -94,53 +94,64 @@ export default function SkierChecklistPage() {
 
   return (
     <div className="min-h-screen bg-[#1BB1E7]">
-      <div className="mx-auto max-w-2xl px-4 py-10">
+      <div className="p-4 flex flex-wrap justify-start">
+        <Link
+          href="/"
+          className="inline-flex items-center gap-2 rounded-xl bg-black/40 px-4 py-2 text-sm font-semibold text-white hover:bg-black/60 transition"
+        >
+          ← Back
+        </Link>
+      </div>
+
+      <div className="mx-auto max-w-2xl px-4">
         {/* Header */}
         <div className="mb-6">
           <h1 className="text-2xl font-bold text-white">
             Skiers Scavenger List
           </h1>
           <p className="mt-2 text-white/90">
-            Check items off as you complete them. Once you’re ready, submit your photos via the form. Winners will be decided tonight at the Burger Bash!
+            Check items off as you complete them. Once you’re ready, submit your
+            photos via the form. Winners will be decided tonight at the Burger
+            Bash!
           </p>
 
           {/* Team name */}
           <div className="mt-5 rounded-2xl bg-white/10 border border-white/25 p-4">
-  <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
-    <div className="text-white">
-      <div className="text-sm font-semibold">Team Name</div>
-      {teamName ? (
-        <div className="text-lg font-bold">{teamName}</div>
-      ) : (
-        <div className="text-sm text-white/80"></div>
-      )}
-    </div>
+            <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+              <div className="text-white">
+                <div className="text-sm font-semibold">Team Name</div>
+                {teamName ? (
+                  <div className="text-lg font-bold">{teamName}</div>
+                ) : (
+                  <div className="text-sm text-white/80"></div>
+                )}
+              </div>
 
-    {/* Input + buttons */}
-    <div className="flex flex-row items-center gap-2">
-      <input
-        value={teamInput}
-        onChange={(e) => setTeamInput(e.target.value)}
-        placeholder="Enter team name"
-        className="w-full sm:w-64 rounded-xl px-3 py-2 text-sm text-black"
-      />
-      <button
-        type="button"
-        onClick={saveTeam}
-        className="rounded-xl bg-black px-4 py-2 text-sm font-semibold text-white whitespace-nowrap"
-      >
-        Save
-      </button>
-      <button
-        type="button"
-        onClick={resetTeam}
-        className="rounded-xl border border-white/40 px-4 py-2 text-sm font-semibold text-white whitespace-nowrap"
-      >
-        Reset
-      </button>
-    </div>
-  </div>
-</div>
+              {/* Input + buttons */}
+              <div className="flex flex-row items-center gap-2">
+                <input
+                  value={teamInput}
+                  onChange={(e) => setTeamInput(e.target.value)}
+                  placeholder="Enter team name"
+                  className="w-full sm:w-64 rounded-xl px-3 py-2 text-sm text-black"
+                />
+                <button
+                  type="button"
+                  onClick={saveTeam}
+                  className="rounded-xl bg-black px-4 py-2 text-sm font-semibold text-white whitespace-nowrap"
+                >
+                  Save
+                </button>
+                <button
+                  type="button"
+                  onClick={resetTeam}
+                  className="rounded-xl border border-white/40 px-4 py-2 text-sm font-semibold text-white whitespace-nowrap"
+                >
+                  Reset
+                </button>
+              </div>
+            </div>
+          </div>
 
           <p className="mt-4 text-white font-semibold">
             Progress: {checkedCount}/{ITEMS.length} (need {MIN_TO_SUBMIT}+ to
@@ -178,7 +189,7 @@ export default function SkierChecklistPage() {
             onClick={handleSubmitClick}
             className={`rounded-xl px-4 py-2 text-sm font-semibold text-white ${
               canSubmit && teamName
-                ? "bg-black"
+                ? "bg-green-600"
                 : "bg-black/40 cursor-not-allowed"
             }`}
           >
@@ -186,79 +197,62 @@ export default function SkierChecklistPage() {
           </Link>
         </div>
 
-            <div className="mx-auto max-w-2xl px-4 py-4 text-white">
-              {" "}
-              <div className="text-md font-bold uppercase tracking-wide mb-2">
-                {" "}
-                Bonus photo:{" "}
-              </div>{" "}
-              <div className="text-sm leading-relaxed">
-                {" "}
-                <p>
-                  {" "}
-                  <span className="font-semibold">5 point photos:</span>{" "}
-                </p>{" "}
-                <ul className="space-y-3 text-sm text-white">
-                  {" "}
-                  <li className="flex items-start">
-                    {" "}
-                    <span className="text-white mr-2">•</span>{" "}
-                    <span>Fresh tracks in untouched snow</span>{" "}
-                  </li>{" "}
-                  <li className="flex items-start">
-                    {" "}
-                    <span className="text-white mr-2">•</span>{" "}
-                    <span>Snowmaking guns in action</span>{" "}
-                  </li>{" "}
-                  <li className="flex items-start">
-                    {" "}
-                    <span className="text-white mr-2">•</span>{" "}
-                    <span>Trees frosted with snow</span>{" "}
-                  </li>{" "}
-                  <li className="flex items-start pb-6">
-                    {" "}
-                    <span className="text-white mr-2">•</span>{" "}
-                    <span> Most trail signs in one shot.</span>{" "}
-                  </li>{" "}
-                </ul>{" "}
-                <p>
-                  {" "}
-                  <span className="font-semibold pt-6">
-                    {" "}
-                    Lodge shots (sign must be visible):{" "}
-                  </span>{" "}
-                </p>{" "}
-                <ul className="space-y-3 text-sm text-white">
-                  {" "}
-                  <li className="flex items-start">
-                    {" "}
-                    <span className="text-white mr-2">•</span>{" "}
-                    <span>Sun Lodge</span>{" "}
-                  </li>{" "}
-                  <li className="flex items-start">
-                    {" "}
-                    <span className="text-white mr-2">•</span>{" "}
-                    <span>Red Pine Lodge</span>{" "}
-                  </li>{" "}
-                  <li className="flex items-start">
-                    {" "}
-                    <span className="text-white mr-2">•</span>{" "}
-                    <span>Tomstone BBQ</span>{" "}
-                  </li>{" "}
-                  <li className="flex items-start">
-                    {" "}
-                    <span className="text-white mr-2">•</span>{" "}
-                    <span> Lookout Cabin</span>{" "}
-                  </li>{" "}
-                  <li className="flex items-start">
-                    {" "}
-                    <span className="text-white mr-2">•</span>{" "}
-                    <span> Cloud Dine</span>{" "}
-                  </li>{" "}
-                </ul>{" "}
-              </div>{" "}
-            </div>{" "}
+        <div className="mx-auto max-w-2xl px-4 py-4 text-white">
+          <div className="text-sm rounded-xl border border-white/30 p-4 mb-6">
+            <p className="mb-3">
+              <span className="font-semibold">5 point photos:</span>
+            </p>
+            <ul className="space-y-3 text-sm text-white">
+              <li className="flex items-start">
+                <span className="text-white mr-2">•</span>
+                <span>Fresh tracks in untouched snow</span>
+              </li>
+              <li className="flex items-start">
+                <span className="text-white mr-2">•</span>
+                <span>Snowmaking guns in action</span>
+              </li>
+              <li className="flex items-start">
+                <span className="text-white mr-2">•</span>
+                <span>Trees frosted with snow</span>
+              </li>
+              <li className="flex items-start">
+                <span className="text-white mr-2">•</span>
+                <span> Most trail signs in one shot.</span>
+              </li>
+            </ul>
+          </div>
+
+          <div className="text-sm rounded-xl border border-white/30 p-4">
+            <p className="mb-3">
+              <span className="font-semibold pt-6">
+                Lodge shots (sign must be visible):
+              </span>
+            </p>
+            <ul className="space-y-3 text-sm text-white">
+              <li className="flex items-start">
+                <span className="text-white mr-2">•</span>
+                <span>Sun Lodge</span>
+              </li>
+              <li className="flex items-start">
+                <span className="text-white mr-2">•</span>
+                <span>Red Pine Lodge</span>
+              </li>
+              <li className="flex items-start">
+                <span className="text-white mr-2">•</span>
+                <span>Tomstone BBQ</span>
+              </li>
+              <li className="flex items-start">
+                <span className="text-white mr-2">•</span>
+                <span> Lookout Cabin</span>
+              </li>
+              <li className="flex items-start">
+                <span className="text-white mr-2">•</span>
+                <span> Cloud Dine</span>
+              </li>
+            </ul>
           </div>
         </div>
+      </div>
+    </div>
   );
 }
