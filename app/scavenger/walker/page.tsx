@@ -9,10 +9,11 @@ const ITEMS: Item[] = [
   { id: "q1", text: "Group spelling A-P-R-È-S with bodies or skis" },
   { id: "q2", text: "Picture with a Liftie" },
   { id: "q3", text: "Snow-covered pine close-up" },
-  { id: "q4", text: "Photo at the Pendry pool with slopes in the background" },
-  { id: "q5", text: "In front of the NEW Sunrise Gondola" },
-  { id: "q6", text: "Casamigos ski chair" },
-  { id: "q7", text: "Group photo around Weedon Ranch entry sign" },
+  { id: "q4", text: "Group at the Umbrella Bar" },
+  { id: "q5", text: "Photo at the Pendry pool with slopes in the background" },
+  { id: "q6", text: "In front of the NEW Sunrise Gondola" },
+  { id: "q7", text: "Casamigos ski chair" },
+  { id: "q8", text: "Group photo around Weedon Ranch entry sign" },
 ];
 
 const CHECKED_KEY = "skier_scavenger_checked_v1";
@@ -108,7 +109,7 @@ export default function WalkerChecklistPage() {
             Village Scavenger List
           </h1>
           <p className="mt-2 text-white/90">
-            Check items off as you complete them. Once you’re ready, submit your
+            Check items off as you complete them. Once you’ve completed the list, submit your
             photos via the form. Winners will be decided tonight at the Burger
             Bash!
           </p>

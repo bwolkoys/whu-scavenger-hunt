@@ -14,7 +14,7 @@ const ITEMS: Item[] = [
   { id: "q6", text: "A dramatic “end of run” victory pose" },
   { id: "q7", text: "A wipeout aftermath (bonus if laughing)" },
   { id: "q8", text: "Photo from behind showing everyone skiing away" },
-  { id: "q9", text: "Après-ski drink cheers (bonus 🍻)" },
+  { id: "q9", text: "Après-ski cocktail/coffee/tea cheers (bonus)" },
 ];
 
 const CHECKED_KEY = "skier_scavenger_checked_v1";
@@ -110,8 +110,7 @@ export default function SkierChecklistPage() {
             Skiers Scavenger List
           </h1>
           <p className="mt-2 text-white/90">
-            Check items off as you complete them. Once you’re ready, submit your
-            photos via the form. Winners will be decided tonight at the Burger
+            Check items off as you complete them. Once you’ve completed the list, submit your photos via the form. Winners will be decided tonight at the Burger
             Bash!
           </p>
 

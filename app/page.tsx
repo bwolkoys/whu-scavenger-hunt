@@ -62,7 +62,7 @@ export default function Home() {
           <ul className="space-y-3 text-lg text-white">
             <li className="flex items-start">
               <span className="text-white mr-2">•</span>
-              <span>One person per team uploads the photos</span>
+              <span>One person per team uploads the photos at the end</span>
             </li>
             <li className="flex items-start">
               <span className="text-white mr-2">•</span>
@@ -119,6 +119,12 @@ export default function Home() {
           <Link href="/scavenger/walker">
             <button className="bg-blue-800 hover:bg-blue-900 text-white font-semibold text-lg py-4 px-8 rounded-lg shadow-lg transition duration-200 transform hover:scale-105">
               Scavenger Hunt – Village
+            </button>
+          </Link>
+
+          <Link href="https://cvma.com/gondola-art-stroll/">
+            <button className="bg-blue-800 hover:bg-blue-900 text-white font-semibold text-lg py-4 px-12 rounded-lg shadow-lg transition duration-200 transform hover:scale-105">
+              Alternative: Art Stroll
             </button>
           </Link>
         </div>
