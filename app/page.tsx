@@ -1,65 +1,128 @@
 import Image from "next/image";
+import image1 from "../public/HomePage/WHUF_Stacked_Digital.png";
+import image2 from "../public/HomePage/WFR Round Logo.png";
+import Link from "next/link";
 
 export default function Home() {
   return (
-    <div className="flex min-h-screen items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex min-h-screen w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the page.tsx file.
-          </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
-          </p>
-        </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
+    <div className="min-h-screen bg-[#1BB1E7] p-6 md:p-12">
+      <div className="max-w-4xl mx-auto">
+        {/* Header */}
+        <h1 className="text-4xl md:text-5xl font-bold text-center text-[#7A263A] mb-8">
+          SCAVENGER HUNT
+        </h1>
+
+        {/* Two Images Side by Side */}
+        <div className="grid grid-cols-2 pb-10">
+          <div className="relative h-30 md:h-60 rounded-lg">
             <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={16}
+              src={image1}
+              alt="WHU Foundation Logo"
+              fill
+              className="object-contain"
             />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
+          </div>
+
+          <div className="relative h-30 md:h-60 rounded-lg">
+            <Image
+              src={image2}
+              alt="WHU Foundation Logo"
+              fill
+              className="object-contain"
+            />
+          </div>
         </div>
-      </main>
+
+        {/* Rules Section */}
+        <div className="bg-[#7A263A] rounded-lg shadow-md p-6 md:p-8 mb-6">
+          <h2 className="text-2xl md:text-3xl font-semibold text-white mb-4">
+            How It Works
+          </h2>
+          <ul className="space-y-3 text-lg text-white">
+            <li className="flex items-start">
+              <span className="text-white mr-2">•</span>
+              <span>Break into groups of 5-10 people</span>
+            </li>
+            <li className="flex items-start">
+              <span className="text-white mr-2">•</span>
+              <span>Designate a team photographer</span>
+            </li>
+            <li className="flex items-start">
+              <span className="text-white mr-2">•</span>
+              <span>Add Team Name. Snap a photo, check it off, move on.</span>
+            </li>
+          </ul>
+        </div>
+
+        {/* Pro Tips Section */}
+        <div className="bg-[#7A263A] rounded-lg shadow-md p-6 md:p-8 mb-6">
+          <h2 className="text-2xl md:text-3xl font-semibold text-white mb-4">
+            Pro Tips
+          </h2>
+          <ul className="space-y-3 text-lg text-white">
+            <li className="flex items-start">
+              <span className="text-white mr-2">•</span>
+              <span>One person per team uploads the photos</span>
+            </li>
+            <li className="flex items-start">
+              <span className="text-white mr-2">•</span>
+              <span>
+                Keep it moving - this should feel like wandering, not a race
+              </span>
+            </li>
+            <li className="flex items-start">
+              <span className="text-white mr-2">•</span>
+              <span>If it's funny, it counts!</span>
+            </li>
+          </ul>
+        </div>
+
+        {/* Optional Scoring Section */}
+        <div className="bg-[#7A263A] rounded-lg shadow-md p-6 md:p-8 mb-10">
+          <h2 className="text-2xl md:text-3xl font-semibold text-white mb-4">
+            Optional Scoring Ideas
+          </h2>
+          <ul className="space-y-3 text-lg text-white">
+            <li className="flex items-start">
+              <span>1 point per photo</span>
+            </li>
+            <li className="flex items-start">
+              <span>+2 bonus for creativity</span>
+            </li>
+            <li className="flex items-start">
+              <span>
+                +5 for photo infront of all 4 Canyons lifts (non-skiers)
+              </span>
+            </li>
+            <li className="flex items-start">
+              <span>
+                +10 for photo infront of all 5 Mountain Lodges
+                (skiers/snowboarders)
+              </span>
+            </li>
+            <li className="flex items-start font-bold">
+              <span>
+                Judges Choice Awards: Most Epic, Funniest, Best Wipeout
+              </span>
+            </li>
+          </ul>
+        </div>
+
+        {/* Buttons */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 place-items-center">
+          <Link href="/scavenger/skier">
+            <button className="bg-blue-800 hover:bg-blue-900 text-white font-semibold text-lg py-4 px-8 rounded-lg shadow-lg transition duration-200 transform hover:scale-105">
+              Scavenger Hunt – Skiers
+            </button>
+          </Link>
+
+          <Link href="/scavenger/walker">
+            <button className="bg-blue-800 hover:bg-blue-900 text-white font-semibold text-lg py-4 px-8 rounded-lg shadow-lg transition duration-200 transform hover:scale-105">
+              Scavenger Hunt – Village
+            </button>
+          </Link>
+        </div>
+      </div>
     </div>
   );
 }
