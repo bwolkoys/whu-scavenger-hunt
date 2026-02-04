@@ -80,7 +80,7 @@ export default function Home() {
         {/* Optional Scoring Section */}
         <div className="bg-[#7A263A] rounded-lg shadow-md p-6 md:p-8 mb-10">
           <h2 className="text-2xl md:text-3xl font-semibold text-white mb-4">
-            Optional Scoring Ideas
+            Scoring
           </h2>
           <ul className="space-y-3 text-lg text-white">
             <li className="flex items-start">

@@ -190,7 +190,7 @@ export default function SkierChecklistPage() {
               {" "}
               <div className="text-md font-bold uppercase tracking-wide mb-2">
                 {" "}
-                Bonus photo ideas:{" "}
+                Bonus photo:{" "}
               </div>{" "}
               <div className="text-sm leading-relaxed">
                 {" "}
