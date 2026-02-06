@@ -197,7 +197,7 @@ export default function WalkerChecklistPage() {
         
         <p className="mb-3">
               <span className="font-semibold pt-6">
-              Lift shots (sign must be visible):
+              Lift Photos (sign must be visible):
               </span>
             </p>
 

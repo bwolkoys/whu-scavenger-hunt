@@ -206,7 +206,7 @@ export default function SkierChecklistPage() {
         
         <p className="mb-3">
               <span className="font-semibold pt-6">
-                Lodge shots (sign must be visible):
+                Lodge Photos (sign must be visible):
               </span>
             </p>
 
