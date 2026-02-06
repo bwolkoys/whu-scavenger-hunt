@@ -91,7 +91,7 @@ export default function Home() {
             </li>
             <li className="flex items-start">
               <span>
-                +5 for photo infront of all 4 Canyons lifts (non-skiers)
+                +5 for photo in front of all 4 Canyons lifts (non-skiers)
               </span>
             </li>
             <li className="flex items-start">
@@ -100,11 +100,14 @@ export default function Home() {
                 (skiers/snowboarders)
               </span>
             </li>
-            <li className="flex items-start font-bold">
+            <li className="font-bold pt-6">
               <span>
-                Judges Choice Awards: Most Epic, Funniest, Best Wipeout
+                Judges Choice Awards:
               </span>
             </li>
+              <span className="font-medium">
+                Most Epic, Funniest, Best Wipeout
+              </span>
           </ul>
         </div>
 

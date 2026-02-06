@@ -4,6 +4,8 @@ import Link from "next/link";
 import { useEffect, useMemo, useState } from "react";
 
 type Item = { id: string; text: string };
+type Lodge = { id: string; text: string };
+type Lifts = { id: string; text: string };
 
 const ITEMS: Item[] = [
   { id: "q1", text: "Group photo spelling WHU" },
@@ -16,6 +18,21 @@ const ITEMS: Item[] = [
   { id: "q8", text: "Photo from behind showing everyone skiing away" },
   { id: "q9", text: "Après-ski cocktail/coffee/tea cheers (bonus)" },
 ];
+
+const LODGE: Lodge [] = [
+  { id: "q10", text: "Sun Lodge" },
+  { id: "q11", text: "Red Pine Lodge" },
+  { id: "q12", text: "Tombstone BBQ" },
+  { id: "q13", text: "Lookout Cabin" },
+  { id: "q14", text: "Cloud Dine" },
+]
+
+const LIFTS: Lifts [] = [
+  { id: "q15", text: "Fresh tracks in untouched snow" },
+  { id: "q16", text: "Snowmaking guns in action" },
+  { id: "q17", text: "Trees frosted with snow" },
+  { id: "q18", text: "Most trail signs in one shot" },
+]
 
 const CHECKED_KEY = "skier_scavenger_checked_v1";
 const TEAM_KEY = "skier_scavenger_team_v1";
@@ -181,8 +198,79 @@ export default function SkierChecklistPage() {
 
         {error ? <p className="mt-4 text-sm text-red-200">{error}</p> : null}
 
+
+
+<div className="pt-6">
+        {/* lodge */}
+        <ul className="space-y-3 rounded-2xl bg-white/10 border border-white/25 p-6">
+        
+        <p className="mb-3">
+              <span className="font-semibold pt-6">
+                Lodge shots (sign must be visible):
+              </span>
+            </p>
+
+          {LODGE.map((lodge) => (
+            <li key={lodge.id} className="flex items-start gap-3">
+              <input
+                type="checkbox"
+                checked={Boolean(checked[lodge.id])}
+                onChange={() => toggle(lodge.id)}
+                className="mt-1 h-5 w-5"
+              />
+              <span
+                className={`text-white ${
+                  checked[lodge.id] ? "line-through opacity-80" : ""
+                }`}
+              >
+                {lodge.text}
+              </span>
+            </li>
+          ))}
+        </ul>
+
+        {error ? <p className="mt-4 text-sm text-red-200">{error}</p> : null}
+
+        </div>
+
+
+
+        {/* lifts */}
+        <div className="pt-6">
+        <ul className="space-y-3 rounded-2xl bg-white/10 border border-white/25 p-6">
+        
+        <p className="mb-3">
+              <span className="font-semibold pt-6">
+                5 point photos:
+              </span>
+            </p>
+
+          {LIFTS.map((lifts) => (
+            <li key={lifts.id} className="flex items-start gap-3">
+              <input
+                type="checkbox"
+                checked={Boolean(checked[lifts.id])}
+                onChange={() => toggle(lifts.id)}
+                className="mt-1 h-5 w-5"
+              />
+              <span
+                className={`text-white ${
+                  checked[lifts.id] ? "line-through opacity-80" : ""
+                }`}
+              >
+                {lifts.text}
+              </span>
+            </li>
+          ))}
+        </ul>
+
+        {error ? <p className="mt-4 text-sm text-red-200">{error}</p> : null}
+
+        </div>
+
+
         {/* Submit */}
-        <div className="mt-6 flex flex-wrap gap-3 justify-center">
+        <div className="mt-6 flex flex-wrap gap-3 justify-center pb-10">
           <Link
             href="/scavenger/submit"
             onClick={handleSubmitClick}
@@ -196,61 +284,6 @@ export default function SkierChecklistPage() {
           </Link>
         </div>
 
-        <div className="mx-auto max-w-2xl px-4 py-4 text-white">
-          <div className="text-sm rounded-xl border border-white/30 p-4 mb-6">
-            <p className="mb-3">
-              <span className="font-semibold">5 point photos:</span>
-            </p>
-            <ul className="space-y-3 text-sm text-white">
-              <li className="flex items-start">
-                <span className="text-white mr-2">•</span>
-                <span>Fresh tracks in untouched snow</span>
-              </li>
-              <li className="flex items-start">
-                <span className="text-white mr-2">•</span>
-                <span>Snowmaking guns in action</span>
-              </li>
-              <li className="flex items-start">
-                <span className="text-white mr-2">•</span>
-                <span>Trees frosted with snow</span>
-              </li>
-              <li className="flex items-start">
-                <span className="text-white mr-2">•</span>
-                <span> Most trail signs in one shot.</span>
-              </li>
-            </ul>
-          </div>
-
-          <div className="text-sm rounded-xl border border-white/30 p-4">
-            <p className="mb-3">
-              <span className="font-semibold pt-6">
-                Lodge shots (sign must be visible):
-              </span>
-            </p>
-            <ul className="space-y-3 text-sm text-white">
-              <li className="flex items-start">
-                <span className="text-white mr-2">•</span>
-                <span>Sun Lodge</span>
-              </li>
-              <li className="flex items-start">
-                <span className="text-white mr-2">•</span>
-                <span>Red Pine Lodge</span>
-              </li>
-              <li className="flex items-start">
-                <span className="text-white mr-2">•</span>
-                <span>Tomstone BBQ</span>
-              </li>
-              <li className="flex items-start">
-                <span className="text-white mr-2">•</span>
-                <span> Lookout Cabin</span>
-              </li>
-              <li className="flex items-start">
-                <span className="text-white mr-2">•</span>
-                <span> Cloud Dine</span>
-              </li>
-            </ul>
-          </div>
-        </div>
       </div>
     </div>
   );

@@ -4,6 +4,7 @@ import Link from "next/link";
 import { useEffect, useMemo, useState } from "react";
 
 type Item = { id: string; text: string };
+type Shots = { id: string; text: string };
 
 const ITEMS: Item[] = [
   { id: "q1", text: "Group spelling A-P-R-È-S with bodies or skis" },
@@ -15,6 +16,16 @@ const ITEMS: Item[] = [
   { id: "q7", text: "Casamigos ski chair" },
   { id: "q8", text: "Group photo around Weedon Ranch entry sign" },
 ];
+
+
+const SHOTS: Shots[] = [
+    { id: "q9", text: "Orange Bubble" },
+    { id: "q10", text: "Red Pine Gondola" },
+    { id: "q11", text: "Cabriolet" },
+    { id: "q12", text: "Sunrise Gondola" },
+    { id: "q13", text: "Bonus - group shot RIDING the Cabriolet buckets" },
+  ];
+
 
 const CHECKED_KEY = "skier_scavenger_checked_v1";
 const TEAM_KEY = "skier_scavenger_team_v1";
@@ -178,8 +189,45 @@ export default function WalkerChecklistPage() {
           ))}
         </ul>
         {error ? <p className="mt-4 text-sm text-red-200">{error}</p> : null}
+
+
+ {/* shots */}
+ <div className="pt-6">
+        <ul className="space-y-3 rounded-2xl bg-white/10 border border-white/25 p-6">
+        
+        <p className="mb-3">
+              <span className="font-semibold pt-6">
+              Lift shots (sign must be visible):
+              </span>
+            </p>
+
+          {SHOTS.map((shots) => (
+            <li key={shots.id} className="flex items-start gap-3">
+              <input
+                type="checkbox"
+                checked={Boolean(checked[shots.id])}
+                onChange={() => toggle(shots.id)}
+                className="mt-1 h-5 w-5"
+              />
+              <span
+                className={`text-white ${
+                  checked[shots.id] ? "line-through opacity-80" : ""
+                }`}
+              >
+                {shots.text}
+              </span>
+            </li>
+          ))}
+        </ul>
+
+        {error ? <p className="mt-4 text-sm text-red-200">{error}</p> : null}
+
+        </div>
+
+
+
         {/* Submit */}
-        <div className="mt-6 flex flex-wrap gap-3 justify-center">
+        <div className="mt-6 flex flex-wrap gap-3 justify-center pb-10">
           <Link
             href="/scavenger/submit"
             onClick={handleSubmitClick}
@@ -191,40 +239,6 @@ export default function WalkerChecklistPage() {
           >
             Submit Photos
           </Link>
-        </div>
-        <div className="mx-auto max-w-2xl px-4 py-4 text-white">
-          {/* <div className="text-md font-bold uppercase tracking-wide mb-2">
-            Bonus photo ideas:{" "}
-          </div> */}
-          <div className="text-sm rounded-xl border border-white/30 p-4 mb-6">
-            <p className="mb-3">
-              <span className="font-semibold pt-6">
-                Lift shots (sign must be visible):
-              </span>
-            </p>
-            <ul className="space-y-3 text-sm text-white">
-              <li className="flex items-start">
-                <span className="text-white mr-2">•</span>
-                <span>Orange Bubble</span>
-              </li>
-              <li className="flex items-start">
-                <span className="text-white mr-2">•</span>
-                <span>Red Pine Gondola</span>
-              </li>
-              <li className="flex items-start">
-                <span className="text-white mr-2">•</span>
-                <span>Cabriolet</span>
-              </li>
-              <li className="flex items-start">
-                <span className="text-white mr-2">•</span>
-                <span>Sunrise Gondola</span>
-              </li>
-              <li className="flex items-start">
-                <span className="text-white mr-2">•</span>
-                <span>Bonus - group shot RIDING the Cabriolet buckets</span>
-              </li>
-            </ul>
-          </div>
         </div>
       </div>
     </div>
